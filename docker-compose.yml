@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  ts-node-docker:
+  node:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,9 +9,36 @@ services:
     volumes:
       - ./src:/usr/src/app/src
       - ./nodemon.json:/usr/src/app/nodemon.json
-    container_name: ts-node-docker
+    container_name: node-container
     expose:
       - '3000'
     ports:
       - '3000:3000'
+    networks: 
+      - backend
     command: npm run dev
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes: 
+      - mongodb:/data/db
+    networks: 
+      - backend
+  
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports: 
+      - '8081:8081'
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: pass
+    networks: 
+      - backend
+
+volumes: 
+  mongodb:
+
+networks: 
+  backend:

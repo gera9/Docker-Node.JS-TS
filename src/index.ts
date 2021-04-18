@@ -63,6 +63,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
 
 server.listen({port, host}, () => {
     console.log('Server on port', port);
+    console.log(process.env.PORT);
     debugLog(`Server running at http://localhost:${port}`);
     routes.forEach((route: CommonRoutesConfig) => {
         debugLog(`Routes configured for ${route.getName()}`);
